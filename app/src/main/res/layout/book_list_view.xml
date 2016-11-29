@@ -14,7 +14,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="6"
             android:id="@+id/book_text_search"/>
-
         <Button
             style="?android:buttonStyleSmall"
             android:layout_width="wrap_content"
@@ -24,6 +23,13 @@
             android:text="Search"/>
 
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/book_list_no_connection_view"
+        android:text="@string/no_connection_find"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/Book_list_empty"

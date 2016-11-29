@@ -2,7 +2,6 @@ package com.example.pomkim.booklist;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +20,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -34,45 +32,39 @@ import java.util.UUID;
  */
 public class BookListFragment extends Fragment {
     private static final String LOG_TAG = BookListFragment.class.getSimpleName();
+    int mCurCheckPosition = 0;
 
     private static final String REQUEST_URL = "https://www.googleapis.com/books/v1/volumes";
     private static final String REQUEST_QUERY = "q";
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("Books", mCurCheckPosition);
+    }
+
     private static final String REQUEST_MAXRESULTS = "maxResults";
 
     private String mSearchQueryString = "";
     private int mSetMaxResult = 10;
 
-    private ListView mBookListView;
     private BookAdapter mAdapter;
     private List<Book> mBooks;
-    private EditText mSearchEditView;
     private Button mSearchButton;
-
 
     public static BookListFragment newInstance() {
         return new BookListFragment();
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(getContext(), "landscape", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            Toast.makeText(getContext(), "portrait", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.book_list_view, container, false);
-        mSearchEditView = (EditText) view.findViewById(R.id.book_text_search);
-        mSearchEditView.addTextChangedListener(new TextWatcher() {
+        EditText searchEditView = (EditText) view.findViewById(R.id.book_text_search);
+        searchEditView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -99,12 +91,12 @@ public class BookListFragment extends Fragment {
             }
         });
 
-        mBookListView = (ListView) view.findViewById(R.id.book_list_view);
+        ListView bookListView = (ListView) view.findViewById(R.id.book_list_view);
         TextView emptyView = (TextView) view.findViewById(R.id.Book_list_empty);
-        mBookListView.setEmptyView(emptyView);
+        bookListView.setEmptyView(emptyView);
         mAdapter = new BookAdapter(this.getContext(), new ArrayList<Book>());
-        mBookListView.setAdapter(mAdapter);
-        mBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        bookListView.setAdapter(mAdapter);
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Book book = mAdapter.getItem(i);
@@ -127,6 +119,10 @@ public class BookListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            mCurCheckPosition = savedInstanceState.getInt("Books", 0);
+
+        }
         setRetainInstance(true);
         mBooks = new ArrayList<>();
         String url = createUrl();

@@ -9,4 +9,5 @@
     <string name="description">Description</string>
     <string name="search_book_text">Search Book Text</string>
     <string name="booklist_empty">BookList Empty</string>
+    <string name="no_connection_find">no Connection find</string>
 </resources>
