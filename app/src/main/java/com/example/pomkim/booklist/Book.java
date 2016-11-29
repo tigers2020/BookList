@@ -2,6 +2,9 @@ package com.example.pomkim.booklist;
 
 import android.net.Uri;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.UUID;
 
 /**
@@ -19,9 +22,9 @@ public class Book {
     private String mBookPublishedDate;
     private String mBookCount;
     private float mBookRate;
-    private String mBookCoverImage;
+    private JSONObject mBookCoverImage;
 
-    public Book(UUID bookId, String bookTitle, String bookSubTitle, String bookDescription, String bookAuthors, Uri bookUri, String bookPublisher, String bookPublishedDate, String bookCount, float bookRate, String bookCoverImage) {
+    public Book(UUID bookId, String bookTitle, String bookSubTitle, String bookDescription, String bookAuthors, Uri bookUri, String bookPublisher, String bookPublishedDate, String bookCount, float bookRate, JSONObject bookCoverImage) {
         mBookTitle = bookTitle;
         mBookSubTitle = bookSubTitle;
         mBookDescription = bookDescription;
@@ -80,7 +83,13 @@ public class Book {
         return mBookRate;
     }
 
-    public String  getBookCoverImage() {
-        return mBookCoverImage;
+    public String  getBookCoverImage(String thumb) {
+
+        try {
+            return mBookCoverImage.getString(thumb);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

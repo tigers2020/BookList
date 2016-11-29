@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">BookList</string>
+    <string name="book_title">book title</string>
+    <string name="sub_title">Sub Title</string>
+    <string name="book_authors">Book Authors</string>
+    <string name="publisher">Publisher</string>
+    <string name="published_date">Published Date</string>
+    <string name="book_pages">Book Pages</string>
+    <string name="description">Description</string>
+    <string name="search_book_text">Search Book Text</string>
+    <string name="booklist_empty">BookList Empty</string>
 </resources>

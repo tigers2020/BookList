@@ -1,7 +1,5 @@
 package com.example.pomkim.booklist;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import com.squareup.picasso.Picasso;
+
 import java.util.UUID;
 
 /**
@@ -62,20 +59,14 @@ public class BookDetailFragment extends Fragment {
 
         mBookTitleView.setText(mBook.getBookTitle());
         mBookSubTitleView.setText(mBook.getBookSubTitle());
-        URL bookCoverUrl;
-        try {
-            bookCoverUrl = new URL(mBook.getBookCoverImage());
-            Bitmap bitmap = BitmapFactory.decodeStream(bookCoverUrl.openConnection().getInputStream());
-            mBookCoverImageView.setImageBitmap(bitmap);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String bookCoverUrl;
+        bookCoverUrl = mBook.getBookCoverImage("thumbnail");
+        Picasso.with(getContext()).load(bookCoverUrl).into(mBookCoverImageView);
         mBookAuthorsView.setText(mBook.getBookAuthors());
         mBookPublisherView.setText(mBook.getBookPublisher());
         mBookPublishedDateView.setText(mBook.getBookPublishedDate());
         mBookPageCountView.setText(mBook.getBookCount());
+        mBookRatingBar.setRating(mBook.getBookRate());
         mBookDescription.setText(mBook.getBookDescription());
 
 
