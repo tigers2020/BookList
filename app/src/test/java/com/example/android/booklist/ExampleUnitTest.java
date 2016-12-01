@@ -1,4 +1,4 @@
-package com.example.pomkim.booklist;
+package com.example.android.booklist;
 
 import org.junit.Test;
 

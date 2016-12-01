@@ -1,4 +1,4 @@
-package com.example.pomkim.booklist;
+package com.example.android.booklist;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.pomkim.booklist", appContext.getPackageName());
+        assertEquals("com.example.android.booklist", appContext.getPackageName());
     }
 }
