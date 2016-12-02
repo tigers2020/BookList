@@ -27,11 +27,6 @@
             android:id="@+id/book_list_search_edit_text_view"
             android:imeOptions="actionSearch"
             android:layout_weight="1"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/book_list_search_button"
-            android:text="@string/btn_search"/>
 
     </LinearLayout>
     <TextView

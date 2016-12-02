@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +14,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -51,7 +52,7 @@ public class BookUtil {
             for (int i = 0; i < items.length(); i++) {
                 JSONObject book = items.getJSONObject(i);
                 JSONObject volumeInfo = book.getJSONObject("volumeInfo");
-                UUID bookId = UUID.randomUUID();
+                String bookId = book.getString("id");
                 String bookTitle = volumeInfo.getString("title");
                 String bookSubTitle = "";
                 if (volumeInfo.has("subTitle")) {
@@ -67,7 +68,10 @@ public class BookUtil {
                 }
                 bookAuthors = builder.toString();
 
-                String publsiher = volumeInfo.getString("publisher");
+                String publisher = "";
+                if (volumeInfo.has("publisher")) {
+                    publisher = volumeInfo.getString("publisher");
+                }
                 String publishedDate = "";
                 if (volumeInfo.has("publishedDate")) {
                     publishedDate = volumeInfo.getString("publishedDate");
@@ -80,8 +84,17 @@ public class BookUtil {
                 if (volumeInfo.has("averageRating")) {
                     ratingCount = (float) volumeInfo.getDouble("averageRating");
                 }
-                String smallBookCoverImage = volumeInfo.getJSONObject("imageLinks").getString("smallThumbnail");
-                String thumbBookCoverImage = volumeInfo.getJSONObject("imageLinks").getString("thumbnail");
+                String smallBookCoverImage = "";
+                String thumbBookCoverImage = "";
+                if(volumeInfo.has("imageLinks")){
+                    JSONObject imageLinks = volumeInfo.getJSONObject("imageLinks");
+                    if(imageLinks.has("smallThumbnail")) {
+                        smallBookCoverImage = volumeInfo.getJSONObject("imageLinks").getString("smallThumbnail");
+                    }else{
+                        smallBookCoverImage = volumeInfo.getJSONObject("imageLinks").getString("thumbnail");
+                    }
+                    thumbBookCoverImage = volumeInfo.getJSONObject("imageLinks").getString("thumbnail");
+                }
 
                 String bookDescription = "";
                 if (volumeInfo.has("description")) {
@@ -92,7 +105,7 @@ public class BookUtil {
                     bookInfoLink = volumeInfo.getString("infoLink");
                 }
 
-                Book thisBook = new Book(bookId, bookTitle, bookSubTitle, bookAuthors, publsiher, publishedDate, bookPritCount, ratingCount, bookDescription, smallBookCoverImage, thumbBookCoverImage, bookInfoLink);
+                Book thisBook = new Book(bookId, bookTitle, bookSubTitle, bookAuthors, publisher, publishedDate, bookPritCount, ratingCount, bookDescription, smallBookCoverImage, thumbBookCoverImage, bookInfoLink);
 
                 mBooks.add(thisBook);
             }
@@ -129,8 +142,6 @@ public class BookUtil {
         }
         HttpURLConnection connection = null;
         InputStream inputStream = null;
-
-        Log.i(LOG_TAG, "Request URL = " + url.toString());
         try {
             connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(10000);
@@ -200,7 +211,7 @@ public class BookUtil {
         return fetchBookData(url);
     }
 
-    public Book getBook(UUID bookId) {
+    public Book getBook(String bookId) {
         for (Book book : mBooks) {
             if (book.getBookId().equals(bookId)) {
                 return book;

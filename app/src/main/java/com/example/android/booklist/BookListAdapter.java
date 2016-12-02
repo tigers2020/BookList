@@ -2,6 +2,7 @@ package com.example.android.booklist;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,11 @@ public class BookListAdapter extends ArrayAdapter<Book> {
             holder = (BookHolder) view.getTag();
         }
 
-        Picasso.with(getContext()).load(book.getBookSmallCoverImage()).into(holder.bookCoverView);
+        if(book.getBookSmallCoverImage().equals("") && TextUtils.isEmpty(book.getBookSmallCoverImage())){
+            Picasso.with(getContext()).load(R.drawable.booknotpictured).into(holder.bookCoverView);
+        }else {
+            Picasso.with(getContext()).load(book.getBookSmallCoverImage()).into(holder.bookCoverView);
+        }
         holder.bookTitleView.setText(book.getBookTitle());
         holder.bookSubTitleView.setText(book.getBookSubTitle());
         holder.bookPublishedDateView.setText(book.getBookPublishedDate());

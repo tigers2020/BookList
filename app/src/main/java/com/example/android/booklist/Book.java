@@ -7,7 +7,7 @@ import java.util.UUID;
  */
 
 public class Book {
-    private UUID mBookId;
+    private String mBookId;
     private String mBookTitle;
     private String mBookSubTitle;
     private String mBookAuthors;
@@ -21,7 +21,7 @@ public class Book {
     private String mInfoLink;
 
 
-    public Book(UUID bookId, String bookTitle, String bookSubTitle, String bookAuthors, String bookPublisher, String bookPublishedDate, int bookPrintCount, float bookRatingCount, String bookDescription, String bookSmallCoverImage, String bookCoverImage, String infoInk) {
+    public Book(String bookId, String bookTitle, String bookSubTitle, String bookAuthors, String bookPublisher, String bookPublishedDate, int bookPrintCount, float bookRatingCount, String bookDescription, String bookSmallCoverImage, String bookCoverImage, String infoInk) {
         mBookId = bookId;
         mBookTitle = bookTitle;
         mBookSubTitle = bookSubTitle;
@@ -77,7 +77,7 @@ public class Book {
         return mInfoLink;
     }
 
-    public UUID getBookId() {
+    public String getBookId() {
         return mBookId;
     }
 
