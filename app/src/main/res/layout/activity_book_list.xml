@@ -35,13 +35,13 @@
         android:layout_centerInParent="true"
         android:id="@+id/book_list_empty"
         android:text="@string/no_book_found"/>
-    <TextView
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_centerInParent="true"
-        android:text="@string/no_internet_connection"
-        android:id="@+id/book_list_internet_state"/>
+        android:id="@+id/book_list_progress_bar"
+        android:layout_above="@id/book_list_empty"
+        android:visibility="gone"/>
     <ListView
         android:layout_below="@id/book_list_search_bar"
         android:layout_width="match_parent"
